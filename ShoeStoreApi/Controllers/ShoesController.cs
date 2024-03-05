@@ -33,5 +33,47 @@ namespace ShoeStoreApi.Controllers
 
       return shoe;
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Shoe>> Post(Shoe shoe)
+    {
+      _db.Shoes.Add(shoe);
+      await _db.SaveChangesAsync();
+      return CreatedAtAction(nameof(GetShoe), new { id = shoe.ShoeId }, shoe);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, Shoe shoe)
+    {
+      if (id != shoe.ShoeId)
+      {
+        return BadRequest();
+      }
+
+      _db.Animals.Update(animal);
+
+      try
+      {
+        await _db.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!ShoeExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+
+      return NoContent();
+    }
+
+    private bool ShoeExists(int id)
+    {
+      return _db.Shoes.Any(e => e.ShoeId == id);
+    }
   }
 }
