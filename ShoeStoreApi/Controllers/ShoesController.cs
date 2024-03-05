@@ -50,7 +50,7 @@ namespace ShoeStoreApi.Controllers
         return BadRequest();
       }
 
-      _db.Animals.Update(animal);
+      _db.Shoes.Update(shoe);
 
       try
       {
