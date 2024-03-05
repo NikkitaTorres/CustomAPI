@@ -75,5 +75,20 @@ namespace ShoeStoreApi.Controllers
     {
       return _db.Shoes.Any(e => e.ShoeId == id);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteShoe(int id)
+    {
+      Shoe shoe = await _db.Shoes.FindAsync(id);
+      if (shoe == null)
+      {
+        return NotFound();
+      }
+
+      _db.Shoes.Remove(shoe);
+      await _db.SaveChangesAsync();
+
+      return NoContent();
+    }
   }
 }
